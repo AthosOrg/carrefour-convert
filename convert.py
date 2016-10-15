@@ -71,18 +71,19 @@ def main():
                 purchase = demongo(buff)
                 buff = ""
 
-                c.execute('''
+                c.execute(
+                    '''
                         INSERT INTO purchases
                         (id, mall, date, client)
                         VALUES (?, ?, ?, ?)
                     ''',
-                          [
-                              purchase['_id'],
-                              purchase['mall'],
-                              purchase['date'],
-                              purchase.get('client'),
-                          ]
-                          )
+                    [
+                        purchase['_id'],
+                        purchase['mall'],
+                        purchase['date'],
+                        purchase.get('client'),
+                    ]
+                )
 
                 # No items
                 if not purchase['items']:
@@ -93,18 +94,19 @@ def main():
                     if item['n_unit'] == 0:
                         continue
 
-                    c.execute('''
+                    c.execute(
+                        '''
                             INSERT INTO items
                             (purchase_id, description, cost, amount)
                             VALUES(?, ?, ?, ?)
                         ''',
-                              [
-                                  purchase['_id'],
-                                  item['desc'],
-                                  str(item['net_am']/item['n_unit']),
-                                  item['n_unit']
-                              ]
-                              )
+                        [
+                          purchase['_id'],
+                          item['desc'],
+                          str(item['net_am']/item['n_unit']),
+                          item['n_unit']
+                        ]
+                    )
 
     # Commit to file
     conn.commit()
