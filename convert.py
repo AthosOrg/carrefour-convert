@@ -63,7 +63,7 @@ def main():
         )
     ''')
 
-    with open('data.json') as f:
+    with open(input_file) as f:
         buff = ""
         for line in f:
             buff += line
